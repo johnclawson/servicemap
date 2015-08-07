@@ -1,0 +1,6 @@
+:TOPOLOGY-LOG - [0:0]
+-A TOPOLOGY-LOG -m mark --mark 0x6 -j RETURN
+-A TOPOLOGY-LOG -j LOG --log-prefix "newConn " --log-level info
+-A TOPOLOGY-LOG -j MARK --set-mark 0x6
+
+-I INPUT -m state --state ESTABLISHED -m limit --limit 20/minute -j TOPOLOGY-LOG

@@ -1,0 +1,448 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	
+	<title>Service Dependency Map</title>
+	<meta name="description" content="Description about your department. This text displays in the Google search results." />
+	<meta name="author" content="Your Department Name" />
+	<meta name="keywords" content="keyword 1, keyword 2, keyword 3">
+	
+	<meta name="viewport" content="width=device-width" />
+	
+	<link rel="stylesheet" href="template/css/style.css" />
+	<link rel="stylesheet" href="template/css/application.css" />
+    
+
+	<script src="template/js/libs/modernizr-2.0-basic.min.js"></script>
+    
+    <!-- JS links and CSS for dataTables and JQuery -->    
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+	<script src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+
+
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="template/js/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+	<!-- Insert plugin stylesheets here -->
+
+    <style>
+
+        path.link {
+          fill: none;
+          stroke: #666;
+          stroke-width: 1.5px;
+        }
+
+        circle {
+          fill: #ccc;
+          stroke: #fff;
+          stroke-width: 1.5px;
+        }
+
+        text {
+          fill: #000;
+          font: 10px sans-serif;
+          pointer-events: none;
+        }
+
+</style>
+
+
+		
+</head>
+
+<body>
+	<header id="main-header">
+		<div id="header-top" class="wrapper">
+			<div id="logo">
+				<a href="https://www.byu.edu/" class="byu"><img src="template/img/byu-logo.gif" alt="BYU Logo" /></a>
+			</div>
+		
+			<!-- Use this if you want to include the parent organization after the logo instead of using 'Brigham Young University'
+			<a href="https://www.byu.edu/" class="byu"><img src="template/img/byu-logo-small.gif" alt="BYU Logo" /></a> <a href="" id="college">Parent Organization</a> -->
+		
+		<!-- 
+	<div id="search-container">
+				<a href="https://home.byu.edu/home/cas" class="button">Login</a>	
+				<!~~ SEARCH - set up with GSA default; change URL in action if you want to use different product ~~>
+				<form method="get" action="https://gurgle2.byu.edu/search"> 
+					<!~~ Change placeholder text to be specific for your implementation ~~>
+					<!~~ <input type="text" name="q" id="search" placeholder="Search Application" /> ~~>
+					<!~~ <input type="image" src="template/img/search-button.png" alt="Search" id="search-button"/> ~~>
+					<!~~ Uncomment next line and insert your custom collection name ~~>
+					<!~~ input type="hidden" name="site" value="default_collection_name" ~~>
+					<!~~ Insert your custom frontend name in place of default in next line ~~>
+					<input type="hidden" name="client" value="default_frontend">
+					<input type="hidden" name="output" value="xml_no_dtd">
+					<input type="hidden" name="proxystylesheet" value="default_frontend">
+				</form>
+			</div>	 
+ -->
+		</div> 		
+	</header>
+	
+		<div id="content" class="wrapper">	
+			<div id="breadcrumb">
+			<div id="breadcrumb-home"><a href="#"><img alt="home" src="template/img/home.png"></a>
+				<div class="bread-drop"> 
+					<a href="https://www.byu.edu">BYU Home</a>
+					<!-- <a href="#">Organization Home</a> -->
+					<!-- <a href="#">Two Pages Above</a>  -->
+				</div>
+			</div>
+		› Service Dependency Map </div>
+		
+			<h1>Service Dependency Map</h1>
+			<h2>OIT Platform Engineering</h2>		
+			<p>Warning: This data is historical, but all hostnames are looked up on page load, and may not match the historical data.</p>
+			<p>A summary job to generate the usable data every 10 minutes.</p>
+            <p>Multiple hosts and/or ports may be selected as needed.</p>
+            <a href="howitworks.html"><b>How This Works</b></a>
+
+<div style="clear:both;">&nbsp;</div>
+
+<!-- BEGIN stuff-->
+<div id="selectors">
+<div id="hostDiv" style="float:left;">
+<h3>Hosts</h3>
+    <form name="hostForm" method="post">
+        <select id="hostList" name="hostList" multiple size="20" required style="width:350px;">
+        </select>
+        <input type="submit" name="hostSubmit" class="button" id="hostSubmit" value="Go"/>
+    </form>
+</div>
+
+<div id="portDiv" style="float:left;padding-left:20px">
+<h3>Service Ports</h3>
+    <form name="portForm" method="post">
+        <select id="portList" name="portList" multiple size="20" required  style="width:100px;">
+        </select>
+        <input type="submit" name="portSubmit" class="button" id="portSubmit" value="Go"/>
+    </form>
+</div>
+
+</div>
+
+<div style="clear:both;">&nbsp;</div>
+
+<div id="tableDiv" style=>
+    <h3>Results</h3>
+    Note: The search box on the table does live filtering of the data.
+    <table id="resultTable" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Proto</th>
+            <th>Dst Port</th>
+            <th>Count</th>
+            <th>Last Seen</th>
+            <th>First Seen</th>
+        </tr>
+    </thead>
+    <tbody id="resultBody">
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Proto</th>
+            <th>Dst Port</th>
+            <th>Count</th>
+            <th>Last Seen</th>
+            <th>First Seen</th>
+        </tr>
+    </tfoot>
+    </table>
+    <script> var dt = $('#resultTable').dataTable(); </script>
+</div>
+<br>
+<div id="graphDiv">
+<h3>Graph</h3>
+</div>
+
+<script>
+
+// load host list into hostForm
+$.ajax({
+    url:'cgi-bin/hostList.py',
+    type:'POST',
+    dataType: 'json',
+    success: function( json ) {
+        $('#hostList').empty();
+        $.each(json, function(key, value) {
+            $('#hostList').append($('<option>').text(key + " (" + value + ")").attr('value', value));
+        });
+    }
+});
+
+// load port list from host selection
+$(function() {
+    $("#hostSubmit").click(function() {
+        // validate and process form here
+        dataString = "";
+        var hosts = $("select#hostList").val();
+        for (var i = 0; i < hosts.length; i++) {
+            dataString += "hostList=" + hosts[i] + "&";
+        }
+        //alert (dataString); return false;
+        $.ajax({
+            url:'cgi-bin/portList.py',
+            data: dataString,
+            type:'POST',
+            dataType: 'json',
+            success: function( json ) {
+                $('#portList').empty();
+                $.each(json, function(key, value) {
+                    $('#portList').append($('<option>').text(value).attr('value', value));
+                });
+            }
+        });
+        return false;
+    });
+});
+
+$(function() {
+    $("#portSubmit").click(function() {
+        // validate and process form here
+        dataString = "";
+        var ports = $("select#portList").val();
+        for (var i = 0; i < ports.length; i++) {
+            dataString += "portList=" + ports[i] + "&";
+        }
+        var hosts = $("select#hostList").val();
+        for (var i = 0; i < hosts.length; i++) {
+            dataString += "hostList=" + hosts[i] + "&";
+        }
+        //alert (dataString); return false;
+        $.ajax({
+            url:'cgi-bin/connectionList.py',
+            data: dataString,
+            type:'POST',
+            dataType: 'json',
+            success: function( json ) {
+                // clear table of old data
+                var dt = $('#resultTable').DataTable();
+                dt
+                    .clear()
+                    .search('')
+                    .columns().search('');
+                // load new data into table
+                $.each(json['list'], function(key, value) {
+                    var counter = "";
+                    var dstip = "";
+                    var dstport = "";
+                    var firstseen = "";
+                    var lastseen = "";
+                    var proto = "";
+                    var srcip = "";
+
+                    $.each(value, function(key, value) {
+                        switch (key)
+                        {
+                        case "counter":
+                            counter = value;
+                            break;
+                        case "dstip":
+                            dstip = value;
+                            break;
+                        case "dstport":
+                            dstport = value;
+                            break;
+                        case "firstseen":
+                            firstseen = value;
+                            break;
+                        case "lastseen":
+                            lastseen = value;
+                            break;
+                        case "proto":
+                            proto = value;
+                            break;
+                        case "srcip":
+                            srcip = value;
+                            break;
+                        }
+                    });
+                    
+                    dt.row.add( [
+                        srcip,
+                        dstip,
+                        proto,
+                        dstport,
+                        counter,
+                        lastseen,
+                        firstseen
+                    ] );                    
+                    dt.draw();
+                });
+              
+                // call graphing function
+                buildGraph(json['graph']);
+
+            }
+        });
+        return false;
+    });
+});
+
+</script>
+
+
+<div style="clear:both;">&nbsp;</div>
+
+<!-- BEGIN D3.js stuff -->
+<script src="/static/d3.v3.min.js" charset="utf-8"></script>
+
+<script>
+    
+    function buildGraph(jsonData) {
+        var width = 960,
+            height = 800;
+
+        var color = d3.scale.category20();
+
+        var force = d3.layout.force()
+            .charge(-400)
+            .linkDistance(30)
+            .linkStrength(3)
+            .size([width, height]);
+
+        d3.select("svg").remove();
+        var svg = d3.select("#graphDiv").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+          // create arrowhead marker end
+          svg.append("defs").selectAll("marker")
+            .data("arrowhead")
+            .enter().append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 15)
+            .attr("refY", -1.5)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+          .append("path")
+            .attr("d", "M0,-5L10,0L0,5");
+
+        // adding the nocache query string to prevent browser from caching json file
+        //jsonFile = "/static/graph.json?nocache" + (new Date()).getTime();
+        //d3.json(jsonFile, function(error, graph) {
+        graph = jsonData;
+          var nodes = graph.nodes.slice(),
+              links = [],
+              bilinks = [];
+
+          graph.links.forEach(function(link) {
+            var s = nodes[link.source],
+                t = nodes[link.target],
+                i = {}; // intermediate node
+            nodes.push(i);
+            links.push({source: s, target: i}, {source: i, target: t});
+            bilinks.push([s, i, t]);
+          });
+
+          force
+              .nodes(nodes)
+              .links(links)
+              .start();
+
+          var node = svg.selectAll(".node")
+              .data(graph.nodes)
+              .enter().append("circle")
+              .attr("class", "node")
+              .attr("r", 8)
+              .style("fill", function(d) { return color(d.group); })
+              .call(force.drag);
+
+          var link = svg.selectAll(".link")
+              .data(bilinks)
+              .enter().append("path")
+              .attr("class", "link")
+              .attr("marker-end", "url(#arrowhead)");
+
+          //node.append("text")
+              //.attr("x", 12)
+              //.attr("x", function(d) { return d.x; })
+              //.attr("y", function(d) { return d.y; })
+              //.attr("dy", ".75em")
+              //.text(function(d) { return d.hostname; });
+
+          var text = svg.append("g").selectAll("text")
+            .data(force.nodes())
+            .enter().append("text")
+            .attr("x", 10)
+            .attr("y", ".35em")
+            .text(function(d) { return d.hostname; });
+
+          force.on("tick", function() {
+            link.attr("d", function(d) {
+              return "M" + d[0].x + "," + d[0].y
+                  + "S" + d[1].x + "," + d[1].y
+                  + " " + d[2].x + "," + d[2].y;
+            });
+            node.attr("transform", function(d) {
+              return "translate(" + d.x + "," + d.y + ")";
+            });
+            text.attr("transform", function(d) {
+              return "translate(" + d.x + "," + d.y + ")";
+            });
+          });
+        //});
+
+        // action to take on mouse click
+//         function click() {
+//             d3.select(this).select("text").transition()
+//                 .duration(750)
+//                 .attr("x", 22)
+//                 .style("fill", "steelblue")
+//                 .style("stroke", "lightsteelblue")
+//                 .style("stroke-width", ".5px")
+//                 .style("font", "20px sans-serif");
+//             d3.select(this).select("circle").transition()
+//                 .duration(750)
+//                 .attr("r", 16)
+//                 .style("fill", "lightsteelblue");
+//         }
+// 
+//         // action to take on mouse double click
+//         function dblclick() {
+//             d3.select(this).select("circle").transition()
+//                 .duration(750)
+//                 .attr("r", 6)
+//                 .style("fill", "#ccc");
+//             d3.select(this).select("text").transition()
+//                 .duration(750)
+//                 .attr("x", 12)
+//                 .style("stroke", "none")
+//                 .style("fill", "black")
+//                 .style("stroke", "none")
+//                 .style("font", "10px sans-serif");
+//         }
+    }
+</script>
+<!-- END D3.js stuff -->
+
+
+	<footer>
+		<div id="footer-bottom">
+			<p><a href="https://byui.edu/">BYU-Idaho</a> <a href="https://byuh.edu/">BYU-Hawaii</a> <a href="https://www.ldsbc.edu/">LDS Business College</a> <a href="https://lds.org/">The Church of Jesus Christ of Latter-day Saints</a></p>
+			<p><a href="https://home.byu.edu/home/copyright">Copyright&#169; 2015, All Rights Reserved</a></p>
+		</div>
+	</footer>
+	<!--CONTENT END-->
+	
+	
+	<script src="template/js/script.js"></script>
+	<!--[if lt IE 7 ]>
+	<script src="template/js/libs/dd_belatedpng.js"></script>
+	<script> DD_belatedPNG.fix('.arrow a, header h1, #search-button');</script>
+	<![endif]-->
+</body>
+</html>
