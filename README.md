@@ -21,4 +21,6 @@ Nodes:
 * add iptablesRules.txt lines to iptables configuration file
 * add iptables.conf rsyslog rule and change hostname to point at collector
 
+***
+
 ![Sample Web UI](https://github.com/johnclawson/servicemap/blob/master/servicemap_ui.png)
